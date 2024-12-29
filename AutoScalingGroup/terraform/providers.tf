@@ -28,7 +28,7 @@ locals {
 }
 # terraform { 
 #   cloud { 
-    
+
 #     organization = "Nabin779" 
 
 #     workspaces { 
@@ -40,7 +40,7 @@ locals {
 
 provider "aws" {
   region  = local.region
-  profile =  local.profile_name
+  profile = local.profile_name
 
   dynamic "endpoints" {
     for_each = local.environment == "localstack" ? [1] : []
