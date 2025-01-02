@@ -1,26 +1,14 @@
 <?php
 // Directory to store code
-$repoDirectory = '/var/www/html/dod'; 
+$repoDirectory = '/var/www/html/webhooktest'; 
 
 // Bitbucket webhook secret key 
-$bitbucketSecret = 'BeauDesert@77'; 
+$bitbucketSecret = ''; 
 
 // Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get the payload from webhook
     $payload = json_decode(file_get_contents('php://input'), true);
-
-    // //Ensure that the request is from bitbucket
-    // if (!isset($_SERVER['HTTP_X_BITBUCKET_SIGNATURE'])) {
-    //     die('No signature, invalid request.');
-    // }
-
-    // // Validate the signature using the Bitbucket webhook secret
-    // $signature = hash_hmac('sha256', file_get_contents('php://input'), $bitbucketSecret);
-
-    // if ($_SERVER['HTTP_X_BITBUCKET_SIGNATURE'] !== $signature) {
-    //     die('Invalid signature');
-    // }
 
     // Log the event for debugging 
     file_put_contents('webhook.log', print_r($payload, true), FILE_APPEND);
@@ -35,21 +23,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         // Change to the repository directory
         chdir($repoDirectory);
-        
+      
         // Pull the latest code from the repository
-        exec('git pull origin main', $output, $status);
+        $output = shell_exec('sudo git pull origin main');
         
         // Check if the pull was successful
-        if ($status === 0) {
+        if ($output) {
             echo "Code pulled successfully from the main branch.\n";
         } else {
             echo "Failed to pull the latest code.\n";
-            echo implode("\n", $output);  // Show any error messages
+            echo implode("\n", $output);  
         }
     } else {
-        echo "No action taken for this push (not to the 'main' branch).\n";
+        echo "Not pushed to main branch ";
     }
 } else {
-    echo "Invalid request method. Only POST is allowed.\n";
+    echo "Invalid request method";
 }
 ?>
+
+
+<!-- allow access to www-data -->
+ <!-- www-data ALL=(ALL) NOPASSWD:ALL -->
+
+ <!-- Allow access to var/www/html/repo -->
+ <!-- sudo chown -R www-data:www-data /var/www/html
+ sudo chmod -R 755 /var/www/html -->
