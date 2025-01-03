@@ -18,9 +18,9 @@
 
 * CIDR Blocks:
 
-* 10.0.0.8/1
+    * 10.0.0.8/1
 
-* 10.0.0.8/2
+    * 10.0.0.8/2
 
 * Purpose: These subnets are exposed to the internet and host resources such as the bastion host, load balancer, and NAT Gateway.
 
