@@ -12,7 +12,7 @@
 
 ### Subnets
 
-1. Public Subnets:
+#### Public Subnets:
 
 * Count: 2
 
@@ -22,17 +22,17 @@
 
 * 10.0.0.8/2
 
-*Purpose: These subnets are exposed to the internet and host resources such as the bastion host, load balancer, and NAT Gateway.
+* Purpose: These subnets are exposed to the internet and host resources such as the bastion host, load balancer, and NAT Gateway.
 
-2. Private Subnets:
+#### Private Subnets:
 
 * Count: 2
 
 * CIDR Blocks:
 
-* 10.0.0.8/3
+    * 10.0.0.8/3
 
-* 10.0.0.8/4
+    * 10.0.0.8/4
 
 * Purpose: These subnets are isolated from direct internet access, hosting private servers and application resources.
 
@@ -80,9 +80,9 @@
 
 * Configuration:
 
-* Hosted in the public subnet to allow controlled external access.
+    * Hosted in the public subnet to allow controlled external access.
 
-* Secured using security groups to restrict SSH access to specific IP ranges.
+    * Secured using security groups to restrict SSH access to specific IP ranges.
 
 ### Agent Server
 
@@ -90,30 +90,30 @@
 
 * Purpose:
 
-* Listens for Bitbucket webhook triggers upon code merges to the main branch.
+    * Listens for Bitbucket webhook triggers upon code merges to the main branch.
 
-* Pulls the latest codebase from Bitbucket.
+    * Pulls the latest codebase from Bitbucket.
 
-* Runs composer install to resolve dependencies.
+    * Runs composer install to resolve dependencies.
 
-* Packages the application as a zip archive.
+    * Packages the application as a zip archive.
 
-* Uploads the zip archive to an Amazon S3 bucket for deployment.
+    * Uploads the zip archive to an Amazon S3 bucket for deployment.
 
 * Access: Managed via the Bastion Host.
 ### Setup Server
 
 * Type: Private Instance
 
-#### Purpose:
+* Purpose:
 
-* Acts as a reference instance for the private servers in the Auto Scaling Group (ASG).
+    * Acts as a reference instance for the private servers in the Auto Scaling Group (ASG).
 
-* Retrieves the application package from S3 and deploys it using an Apache server.
+    * Retrieves the application package from S3 and deploys it using an Apache server.
 
-* Configured to create a Custom AMI after deployment.
+    * Configured to create a Custom AMI after deployment.
 
-* This AMI is used as the base for the launch template of the Auto Scaling Group.
+    * This AMI is used as the base for the launch template of the Auto Scaling Group.
 
 ### Application Servers
 
@@ -135,17 +135,17 @@
 
 * Location: Private subnets.
 
-###### Purpose: Hosts application servers that:
+* Purpose: Hosts application servers that:
 
-* Serve requests routed from the Load Balancer.
+    * Serve requests routed from the Load Balancer.
 
-* Scale dynamically based on traffic and performance metrics.
+    * Scale dynamically based on traffic and performance metrics.
 
 * Configuration:
 
-* Uses the Custom AMI created by the Setup Server.
+    * Uses the Custom AMI created by the Setup Server.
 
-*Ensures redundancy and high availability by spanning multiple private subnets.
+    * Ensures redundancy and high availability by spanning multiple private subnets.
 
 ## Deployment Workflow
 
@@ -161,4 +161,4 @@
 
 * Load Balancer routes incoming traffic to healthy application servers in the ASG.
 
-* This setup ensures a highly secure, scalable, and fault-tolerant infrastructure for the DOD project, leveraging AWS best practices and Terraform for resource provisioning.
+**This setup ensures a highly secure, scalable, and fault-tolerant infrastructure for the DOD project, leveraging AWS best practices and Terraform for resource provisioning.**
