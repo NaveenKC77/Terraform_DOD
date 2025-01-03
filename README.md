@@ -36,15 +36,15 @@
 
 * Purpose: These subnets are isolated from direct internet access, hosting private servers and application resources.
 
-3. Internet Gateway (IGW)
+### Internet Gateway (IGW)
 
 * Count: 1
 
 * Purpose: Enables connectivity between the VPC and external networks for public-facing resources.
 
-4. NAT Gateway and Elastic IP
+### NAT Gateway and Elastic IP
 
-* Elastic IP:
+#### Elastic IP:
 
 * Count: 1
 
@@ -56,7 +56,7 @@
 
 * Purpose: Allows private subnets to securely access external resources, such as downloading packages or updates, through the Internet Gateway.
 
-5. Routing Tables
+### Routing Tables
 
 #### Public Routes:
 
@@ -72,7 +72,7 @@
 
 ## Application Server Infrastructure
 
-1. Bastion Host
+### Bastion Host
 
 * Location: First public subnet.
 
@@ -84,7 +84,7 @@
 
 * Secured using security groups to restrict SSH access to specific IP ranges.
 
-2. Agent Server
+### Agent Server
 
 * Type: Private Instance
 
@@ -98,11 +98,10 @@
 
 * Packages the application as a zip archive.
 
-Uploads the zip archive to an Amazon S3 bucket for deployment.
+* Uploads the zip archive to an Amazon S3 bucket for deployment.
 
 * Access: Managed via the Bastion Host.
-
-3. Setup Server
+### Setup Server
 
 * Type: Private Instance
 
@@ -116,7 +115,7 @@ Uploads the zip archive to an Amazon S3 bucket for deployment.
 
 * This AMI is used as the base for the launch template of the Auto Scaling Group.
 
-4. Application Servers
+### Application Servers
 
 #### Load Balancer:
 
@@ -148,7 +147,7 @@ Uploads the zip archive to an Amazon S3 bucket for deployment.
 
 *Ensures redundancy and high availability by spanning multiple private subnets.
 
-### Deployment Workflow
+## Deployment Workflow
 
 * Code is merged to the main branch in Bitbucket.
 
