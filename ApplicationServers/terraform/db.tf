@@ -1,7 +1,7 @@
 resource "aws_security_group" "db_sg" {
   name        = "db_sg"
   description = "Allow TCP inbound traffic from auto scaling security group"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = data.aws_vpc.mtc_vpc.id
 
   #  For auto scaling servers use
   ingress {

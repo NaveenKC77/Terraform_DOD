@@ -18,7 +18,8 @@ resource "aws_subnet" "mtc_public_subnet" {
 
 
   tags = {
-    name = "mtc_public_subnet${count.index + 1}"
+    Name = "mtc_public_subnet${count.index + 1}"
+    Type = "public"
   }
 }
 
@@ -30,7 +31,8 @@ resource "aws_subnet" "mtc_private_subnet" {
   availability_zone = element(var.availaibilty_zones, count.index)
 
   tags = {
-    name = "mtc_private_subnet${count.index + 1}"
+    Name = "mtc_private_subnet${count.index + 1}"
+    Type = "private"
   }
 }
 
@@ -40,7 +42,7 @@ resource "aws_db_subnet_group" "public_subnet_group" {
  
 
   tags = {
-    Name = "My Public DB subnet group"
+    Name = "public_db_subnet_group"
   }
 }
 
@@ -88,7 +90,7 @@ resource "aws_nat_gateway" "mtc_nat_gateway" {
   depends_on    = [aws_internet_gateway.mtc_gw]
 
   tags = {
-    name = "mtc_nat_gateway"
+    Name = "mtc_nat_gateway"
   }
 }
 
@@ -102,7 +104,7 @@ resource "aws_route_table" "mtc_private_route_table" {
   depends_on = [aws_nat_gateway.mtc_nat_gateway]
 
   tags = {
-    name = "mtc_private_subnet_route_table"
+    Name = "mtc_private_subnet_route_table"
   }
 }
 
