@@ -66,7 +66,7 @@ resource "aws_lb" "app_lb" {
   internal           = false
   security_groups    = [aws_security_group.load_balancer_sg.id]
   subnets            = data.aws_subnets.public_subnets.ids
-  depends_on         = [data.aws_igw.mtc_igw]
+  depends_on         = [data.aws_internet_gateway.mtc_igw]
 
   tags = {
     Name = "app_lb"
@@ -98,12 +98,20 @@ resource "aws_lb_listener" "app_lb_listener" {
     Name = "app_lb_listener"
   }
 }
+# Create an AMI from the specified instance
+resource "aws_ami_from_instance" "setup" {
+  name               = "my-custom-ami"
+  source_instance_id = data.aws_instance.setup_instance.id
+  description        = "An AMI created from an existing EC2 instance"
+
+}
 
 # Launch Template for Auto Scaling Group
 resource "aws_launch_template" "app_launch_template" {
   name          = "app_launch_template"
-  image_id      = data.aws_ami.ubuntu
+  image_id      = aws_ami_from_instance.setup.id
   instance_type = "t2.micro"
+  
 
   network_interfaces {
     associate_public_ip_address = true

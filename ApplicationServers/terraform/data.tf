@@ -1,3 +1,4 @@
+# fetch existing VPC
 data "aws_vpc" "mtc_vpc" {
   filter {
     name   = "tag:Name"
@@ -5,28 +6,20 @@ data "aws_vpc" "mtc_vpc" {
   }
 }
 
-data "aws_security_group" "public_sg" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.mtc_vpc.id] # VPC ID
-  }
-  filter {
-    name   = "tag:Name"
-    values = ["public_sg"]
-  }
-}
-
-data "aws_internet_gateway" "example" {
+# fetching internet Gateway
+data "aws_internet_gateway" "mtc_igw" {
   filter {
     name   = "attachment.vpc-id"
     values = [data.aws_vpc.mtc_vpc.id] # Replace with your VPC ID or reference
   }
 }
 
+# fetching public key 
 data "aws_key_pair" "mtc_key" {
   key_name = "mtc_key"
 }
 
+# ubuntu 24.04 image
 data "aws_ami" "ubuntu" {
   most_recent = true
   owners      = ["099720109477"]
@@ -37,6 +30,7 @@ data "aws_ami" "ubuntu" {
 
 }
 
+# Public subnets
 data "aws_subnets" "public_subnets" {
   filter {
     name   = "vpc-id"
@@ -48,6 +42,8 @@ data "aws_subnets" "public_subnets" {
     values = ["public"]
   }
 }
+
+# Private Subnets
 data "aws_subnets" "private_subnets" {
   filter {
     name   = "vpc-id"
@@ -60,10 +56,11 @@ data "aws_subnets" "private_subnets" {
   }
 }
 
-data "aws_db_subnet_group" "public_db_subnet_group"{
-  name = "public_db_subnet_group"
-  vpc_id = data.aws_vpc.mtc_vpc.ipv6_association_id
+# ID of running setup instance
+data "aws_instance" "setup_instance" {
+  instance_id = "i-0033a5078eddacc73" 
 }
 
-# public_subnet_ids
-#private_subnet_ids
+
+
+
