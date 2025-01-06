@@ -18,3 +18,6 @@ output "public_subnet_ids"{
 output "public_subnet_1_id"{
   value = aws_subnet.mtc_public_subnet[0].id
 }
+output "private_subnet_1_id"{
+  value = aws_subnet.mtc_private_subnet[0].id
+}

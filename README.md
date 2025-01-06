@@ -90,8 +90,6 @@
 
 * Purpose:
 
-    * Listens for Bitbucket webhook triggers upon code merges to the main branch.
-
     * Pulls the latest codebase from Bitbucket.
 
     * Runs composer install to resolve dependencies.

@@ -10,7 +10,6 @@ sudo mv composer.phar /usr/local/bin/composer
 sudo chmod +x /usr/local/bin/composer
 sudo apt install php8.2-xml php8.2-dom php8.2-simplexml -y
 sudo apt install php8.2-pdo-mysql -y
-sudo apt-get install libapache2-mod-php8.2 -y
-sudo apt install git
+
 
 

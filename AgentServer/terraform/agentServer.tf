@@ -1,5 +1,5 @@
 # Security Group for setupServer
-resource "aws_security_group" "private_server_sg" {
+resource "aws_security_group" "agent_server_sg" {
   name        = "agent_server_sg"
   description = "Allow SSH from bastion host"
   vpc_id      = module.vpc.vpc_id
@@ -11,8 +11,7 @@ resource "aws_security_group" "private_server_sg" {
     protocol        = "tcp"
     security_groups = [aws_security_group.public_sg.id]
   }
-
-
+  
   egress {
     description = "For Internet Connection"
     from_port   = 0
@@ -70,8 +69,8 @@ resource "aws_instance" "agent_server" {
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t2.micro"
   key_name               = aws_key_pair.mtc_key.key_name
-  vpc_security_group_ids = [aws_security_group.private_server_sg.id]
-  subnet_id              = module.vpc.public_subnet_1_id
+  vpc_security_group_ids = [aws_security_group.agent_server_sg.id]
+  subnet_id              = module.vpc.private_subnet_1_id
   iam_instance_profile   = aws_iam_instance_profile.private_server_instance_profile.name
   user_data              = filebase64("../userdata.sh")
 
